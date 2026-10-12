@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useServerFn } from '@tanstack/react-start';
 import { Youtube, Loader2, ThumbsUp } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { analyzeText, summarize, type Analysis } from '@/lib/sentiment';
+import { analyzeText, type Analysis } from '@/lib/sentiment';
 import { fetchYoutubeComments } from '@/lib/youtube.functions';
 
 type Video = { id: string; title: string; channel: string; thumbnail: string; commentCount: number };
@@ -36,7 +36,6 @@ export function YoutubePanel({ onLoaded }: { onLoaded: (rows: Analysis[], name: 
     finally { setLoading(false); }
   }
 
-  const s = stats && video ? null : null; void s;
   return (
     <section className="surface analysis-panel mb-6">
       <div className="panel-heading"><h2 className="subheading flex items-center gap-2"><Youtube size={18} className="text-negative"/> YouTube comment analysis</h2><span className="small-caption">Paste any video or Shorts link</span></div>
@@ -63,4 +62,3 @@ export function YoutubePanel({ onLoaded }: { onLoaded: (rows: Analysis[], name: 
   );
 }
 
-export { summarize };
