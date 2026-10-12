@@ -12,4 +12,7 @@ export default defineConfig({
     // nitro/vite builds from this
     server: { entry: "server" },
   },
+  // Netlify sets NETLIFY=true in its build environment, so builds there emit a
+  // Netlify Functions bundle while Lovable's own hosting keeps the default target.
+  ...(process.env["NETLIFY"] ? { nitro: { preset: "netlify" } } : {}),
 });
