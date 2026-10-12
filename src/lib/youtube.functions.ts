@@ -12,7 +12,7 @@ export function extractVideoId(input: string): string | null {
       const v = u.searchParams.get('v');
       if (v) return v.slice(0, 11);
       const m = u.pathname.match(/\/(shorts|embed|live|v)\/([\w-]{11})/);
-      if (m) return m[2];
+      if (m) return m[2] ?? null;
     }
   } catch { /* not a url */ }
   return null;
@@ -23,7 +23,7 @@ export type YoutubeComment = { text: string; author: string; likes: number; publ
 export const fetchYoutubeComments = createServerFn({ method: 'POST' })
   .inputValidator((d: { url: string; max?: number }) => z.object({ url: z.string().min(1).max(500), max: z.number().int().min(20).max(500).optional() }).parse(d))
   .handler(async ({ data }) => {
-    const key = process.env.GOOGLE_API_KEY;
+    const key = process.env['GOOGLE_API_KEY'];
     if (!key) return { error: 'YouTube access is not configured.' } as const;
     const videoId = extractVideoId(data.url);
     if (!videoId) return { error: 'That does not look like a YouTube video link.' } as const;
