@@ -14,5 +14,5 @@ export default defineConfig({
   },
   // Netlify sets NETLIFY=true in its build environment, so builds there emit a
   // Netlify Functions bundle while Lovable's own hosting keeps the default target.
-  nitro: process.env.NETLIFY ? { preset: "netlify" } : undefined,
+  ...(process.env["NETLIFY"] ? { nitro: { preset: "netlify" } } : {}),
 });
